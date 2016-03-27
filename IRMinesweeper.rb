@@ -12,9 +12,7 @@ class Square
 	end
 end
 
-# might not need this
-dummyArray = [1,2,3,4,5,66,6]
-
+# user input
 print "Please enter lines and columns: "
 
 input = gets.chomp
@@ -56,14 +54,27 @@ while i < row_count do
 
 end
 
-puts "\nPrinting minefield\n"
+# get nearby mines
 
-field.each do |row_entry|
-	row_entry.each do |column_entry|
-		if (column_entry.mine == true)
+field.each do |row|
+	row.each do |column|
+		if (column.mine == false)
+			mine_count = 0
+
+
+		end
+	end
+end
+
+
+# display minefield
+puts "\nPrinting minefield\n"
+field.each do |row|
+	row.each do |column|
+		if (column.mine == true)
 			print "* "
 		else
-			print ". "
+			print "0 "
 		end
 	end
 	print("\n")
