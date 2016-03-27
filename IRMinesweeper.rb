@@ -12,6 +12,7 @@ class Square
 	end
 end
 
+# might not need this
 dummyArray = [1,2,3,4,5,66,6]
 
 print "Please enter lines and columns: "
@@ -37,12 +38,17 @@ while i < row_count do
 	print "Input row number #{i} values: "
 	input = gets.chomp
 	temp_row = input.split(" ")
+	mine_state = false
 	
 	j = 0
 
 	while j < column_count
-		#puts j
-		row << Square.new(i,j, temp_row[j])
+		if temp_row[j] == "*"
+			mine_state = true
+		else
+			mine_state = false
+		end
+		row << Square.new(i,j, mine_state)
 		j += 1
 	end
 
@@ -50,12 +56,15 @@ while i < row_count do
 
 end
 
-puts "Printing minefield"
+puts "\nPrinting minefield\n"
 
 field.each do |row_entry|
 	row_entry.each do |column_entry|
-		print column_entry.mine
-		print " "
+		if (column_entry.mine == true)
+			print "* "
+		else
+			print ". "
+		end
 	end
 	print("\n")
 end
