@@ -33,15 +33,45 @@ class Board
 		end
 	end
 
+	def isAdjacent(target, potential_mine)
+		# puts "Target co-ordinates: #{target.x}, #{target.y}"
+		# puts "Potential mine co-ordinates: #{potential_mine.x}, #{potential_mine.y}"
+		x = (target.x - potential_mine.x).abs
+		y = (target.y - potential_mine.y).abs
+
+		if x < 2 && y < 2 && potential_mine.mine == true
+			return true
+		else
+			return false
+		end
+	end
+
+	def getAdjacentMines(target)
+		count = 0
+
+		(0...@width).each do |x|
+			(0...@height).each do |y|
+				potential_mine = @squares[x][y]
+				if (isAdjacent(target, potential_mine))
+					count += 1
+					#puts "Current Mine being checked: #{potential_mine.x}"
+					#puts "adjacent_mines: #{count}"
+				end
+			end
+		end
+		return count
+	end
+
 	def display_minefield
 		puts "\nPrinting minefield\n"
 		(0...@width).each do |x|
 			(0...@height).each do |y|
 				square = @squares[x][y]
+				adjacent_mines = getAdjacentMines(square)
 				if (square.mine == true)
 					print "* "
 				else
-					print "0 "
+					print "#{adjacent_mines} "
 				end
 			end
 			print("\n")
@@ -50,20 +80,18 @@ class Board
 end
 
 class Square
-	attr_accessor :x, :y, :mine
+	attr_accessor :x, :y, :mine, :adjacent_mines
 
 	def initialize (x, y)
 		@x = x
 		@y = y
 		@mine = false
+		@adjacent_mines = 0
 	end
 end
 
-class Mine
-end
-
 def prompt_user
-	
+
 	print "Please enter lines, columns and number of mines: "
 
 	input = gets.chomp
