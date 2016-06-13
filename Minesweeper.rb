@@ -15,6 +15,7 @@ class Board
 		display_minefield
 	end
 
+	#generate a random minefield
 	def randomise_minefield
 		(0...@width).each do |x|
 			(0...@height).each do |y|
@@ -33,9 +34,8 @@ class Board
 		end
 	end
 
-	def isAdjacent(target, potential_mine)
-		# puts "Target co-ordinates: #{target.x}, #{target.y}"
-		# puts "Potential mine co-ordinates: #{potential_mine.x}, #{potential_mine.y}"
+	# check if there are any mines ajacent to the target square
+	def is_adjacent(target, potential_mine)
 		x = (target.x - potential_mine.x).abs
 		y = (target.y - potential_mine.y).abs
 
@@ -46,28 +46,29 @@ class Board
 		end
 	end
 
-	def getAdjacentMines(target)
+	# count the adjacent mines
+	def get_adjacent_mines(target)
 		count = 0
 
 		(0...@width).each do |x|
 			(0...@height).each do |y|
 				potential_mine = @squares[x][y]
-				if (isAdjacent(target, potential_mine))
+				if (is_adjacent(target, potential_mine))
 					count += 1
-					#puts "Current Mine being checked: #{potential_mine.x}"
-					#puts "adjacent_mines: #{count}"
 				end
 			end
 		end
+
 		return count
 	end
 
+	# display the minefield
 	def display_minefield
 		puts "\nPrinting minefield\n"
 		(0...@width).each do |x|
 			(0...@height).each do |y|
 				square = @squares[x][y]
-				adjacent_mines = getAdjacentMines(square)
+				adjacent_mines = get_adjacent_mines(square)
 				if (square.mine == true)
 					print "* "
 				else
@@ -90,22 +91,16 @@ class Square
 	end
 end
 
-def prompt_user
+puts "Please enter lines, columns and number of mines: "
 
-	print "Please enter lines, columns and number of mines: "
+input = gets.chomp
+dimensions = input.split(" ")
 
-	input = gets.chomp
-	dimensions = input.split(" ")
+row_count = dimensions[0].to_i
+column_count = dimensions[1].to_i
+mine_count = dimensions[2].to_i
 
-	row_count = dimensions[0].to_i
-	column_count = dimensions[1].to_i
-	mine_count = dimensions[2].to_i
+puts "Input received. #{row_count} row(s), #{column_count} column(s), #{mine_count} mine(s)"
 
-	puts "Input received. #{row_count} row(s), #{column_count} column(s), #{mine_count} mine(s)"
-
-	minesweeper = Board.new(row_count, column_count, mine_count)
-end
-
-prompt_user
-
+minesweeper = Board.new(row_count, column_count, mine_count)
 
