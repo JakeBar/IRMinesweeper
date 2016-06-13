@@ -1,10 +1,10 @@
-# IR Minesweeper Program 
+# Ruby Minesweeper Program 
 # Author - Jake Barber 
 # email - s3380519@student.rmit.edu.au
 
 class Board
 	attr_accessor :row_count, :column_count, :mines
-	
+
 	def initialize (row_count, column_count, mines)
 		@width = column_count
 		@height = row_count
@@ -23,16 +23,12 @@ class Board
 			end
 		end
 
-		mine_count = 0
-
 		(0...@mines).each do |count|
 			x = rand(@width)
 			y = rand(@height)
-			puts "#{}"
 			square = @squares[x][y]
 			if square.mine == false
 				square.mine = true
-				mine_count += 1
 			end
 		end
 	end
@@ -67,8 +63,7 @@ class Mine
 end
 
 def prompt_user
-
-	# user input
+	
 	print "Please enter lines, columns and number of mines: "
 
 	input = gets.chomp
